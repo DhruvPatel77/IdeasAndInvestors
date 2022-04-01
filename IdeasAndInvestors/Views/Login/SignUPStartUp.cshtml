@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewData["Title"] = "SignUPStartUp";
+    Layout = "~/Views/Shared/_IdeasInvestorsLayout.cshtml";
+}
+
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.esm.min.js"></script>
+<link rel="stylesheet" href="~/template/assets/css/login-style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/3b6c6d87d3.js" crossorigin="anonymous"></script>
+<style>    
+    label.error.fail-alert {
+border: 2px solid red;
+border-radius: 4px;
+line-height: 1;
+padding: 10px;
+background: #ffe6eb;
+color:red;
+/margin-left:150px;
+margin-top:30px;/
+}
+</style>
+
+
+@using (Html.BeginForm("SignUPStartUp","Login",FormMethod.Post,new {id="startupval",enctype="multipart/form-data"}))
+{
+ <div class="signinform">
+      <h1>Welcome Entrepreneurs</h1>
+        <!-- container -->
+        <div class="container">
+            <!-- main content -->
+            <div class="w3l-form-info">
+                <div class="w3_info">
+                    <h2>SignUp Here</h2>
+                    <form action="#" method="post">
+                        <div class="input-group">
+                            <span><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <input type="text" placeholder="Name" required="" id="Pname" name="Pname">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-book" aria-hidden="true"></i></span>
+                            <input type="text" placeholder="Address" required="" id="Paddress" name="Paddress">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-calendar" aria-hidden="true"></i></span>
+                            <input type="text" placeholder="Date Of Birth (YYYY/MM/DD)" required="" id="Pdob" name="Pdob">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-genderless" ariaaria-hidden="true"></i></span>
+                            <input type="text" placeholder="Gender" required="" id="Pgender" name="Pgender">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-phone" aria-hidden="true"></i></span>
+                            <input type="text" placeholder="Phone Number" required="" id="Pphone" name="Pphone">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-graduation-cap" aria-hidden="true"></i></span>
+                            <input type="text" placeholder="Qualification" required="" id="Pqualification" name="Pqualification">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-user" aria-hidden="true"></i></span>
+                            <input type="email" placeholder="Email Address" required="" id="Pemail" name="Pemail">
+                        </div>
+                        <div class="input-group">
+                            <span><i class="fas fa-key" aria-hidden="true"></i></span>
+                            <input type="password" placeholder="Password" required="" id="Ppassword" name="Ppassword">
+                        </div>
+                        <div>
+                            Upload photo
+                            <span><i class="fas fa-image" aria-hidden="true"></i></span>
+                            <input type="file" id="file" name="file" accept="image/*">
+                        </div>
+                        
+
+                       
+                        <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                    </form>
+                     @if (TempData["ErrMsg"]!= null)
+                                    {
+                                        <label style="color:red">
+                                            @TempData["ErrMsg"]
+                                        </label>
+                                    }
+                   
+                   
+                </div>
+            </div>
+            <!-- //main content -->
+       </div>
+        <!-- //container -->
+         </div>
+        <!-- footer -->
+        }
+        @section StartUpValidation
+{
+    <script type="text/javascript">
+        //following is called jquery validation plugin
+        $(document).ready(function(){
+
+            $("#startupval").validate({
+                errorClass: "error fail-alert",
+
+                rules: {
+
+                    Pphone: {
+                      required: true,
+		              number: true,
+		              maxlength: 10,
+                      minlength: 10
+                      
+                    },
+
+                    
+                    Pemail: {
+                        
+                        remote: {
+                            url: '@Url.Action("CheckEmail","Login")',
+                            data: {
+                                'Email': function () {
+                                    return $("#Pemail").val();
+                                }
+                            }
+                        }                        
+                    }
+                   
+                },
+                messages: {
+
+                    
+                    
+                    Pemail: {
+                        
+                        remote:'Email Address Already exist',
+                        focus() { }
+                    }
+                },
+                errorPlacement:function(error,element){
+                    error.insertAfter(element.parent());
+                }
+            })
+
+        });
+
+
+
+    </script>
+
+}
